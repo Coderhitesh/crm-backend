@@ -4,6 +4,7 @@ const { catchAsyncErrors } = require('../utility/catchAsync');
 const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
+const executive = require('../modals/executive')
 
 const Attendnce = require('../modals/attendence')
 const ExcelJS = require('exceljs');
@@ -40,7 +41,14 @@ const sendPdfMail = async (email, pdfFileName, package, packagePDF) => {
 //function to create a client by executive
 exports.createClient = catchAsyncErrors(async (req, res) => {
   const userId = req.user.id; 
-    console.log(userId)
+  const finduser = await executive.findById(userId)
+  if(!finduser){
+    return res.status(404).json({
+      success:false,
+      msg: 'Please login for making client'
+    })
+  }
+  console.log(finduser)
   const {
     name,
     mobileNumber,
@@ -53,7 +61,7 @@ exports.createClient = catchAsyncErrors(async (req, res) => {
     messageSend,
     followUpDate
   } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
   let pdfFileName = '';
   let packagePDF = null;
 
@@ -70,11 +78,13 @@ exports.createClient = catchAsyncErrors(async (req, res) => {
       followUp,
       messageSend,
       followUpDate,
-      submittedBy: userId
+      submittedBy: userId,
+      submittedByName:finduser.username
     });
 
     // Save the client entry to the database
     await newClient.save();
+
 
     // // Check if messageSend is true and package is specified
     if (messageSend && package) {
@@ -210,11 +220,12 @@ exports.updateClientReport = catchAsyncErrors(async (req, res) => {
 
 exports.GetClientByMobileNumber = catchAsyncErrors(async (req, res) => {
   try {
+  
     const { mobileNumber } = req.body; // Correctly extract mobileNumber from the request body
 
     // Check if the mobile number is linked with any client
     const client = await Client.findOne({ mobileNumber });
-
+    console.log(client)
     if (!client) {
       return res.status(404).json({
         success: false,
