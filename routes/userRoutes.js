@@ -43,14 +43,14 @@ route.post('/activate', async (req, res) => {
   }
 });
 
-route.post('/login',login)
-route.post('/logout',protect,logout)
-route.post('/mark-attendce',markAttendance)
-route.post('/create-client',protect,createClient)
-route.get('/follow-up-clients',protect,followUp)
-route.post('/Change-ClientDetails',protect,updateClientReport)
-route.post('/getClientByNumber',GetClientByMobileNumber)
-route.get('/Download-client-data',downloadClientData)
-route.get('/download-Attendce',downloadAttendance)
+// route.post('/login',login)
+// route.post('/logout',protect,logout)
+// route.post('/mark-attendce',markAttendance)
+// route.post('/create-client',protect,createClient)
+// route.get('/follow-up-clients',protect,followUp)
+// route.post('/Change-ClientDetails',protect,updateClientReport)
+// route.post('/getClientByNumber',GetClientByMobileNumber)
+// route.get('/Download-client-data',downloadClientData)
+// route.get('/download-Attendce',downloadAttendance)
 
 module.exports = route;
