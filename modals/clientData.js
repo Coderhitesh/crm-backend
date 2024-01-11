@@ -30,6 +30,9 @@ const clientSchema = new mongoose.Schema({
     ref: 'executive', // Reference to the User model
     required: true,
   },
+  submittedByName:{
+    type: String,
+  },
   followUpDate: String,
 });
 
